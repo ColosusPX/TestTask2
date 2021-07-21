@@ -2,12 +2,16 @@
 
 public class CubeMovment : MonoBehaviour
 {
+    [SerializeField] float _power = 1;
     Rigidbody _cube;
     bool _isDrag;
     Vector3 _direction;
 
     void Update()
     {
+        if (Input.touchCount > 0)
+            return;
+
         _direction = Vector3.zero;
         RaycastHit hit;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -25,7 +29,7 @@ public class CubeMovment : MonoBehaviour
             if (_isDrag && Input.GetMouseButton(0))
             {
                 _direction = new Vector3(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"), 0);
-                _cube.position = Vector3.Lerp(_cube.position, _cube.position + _direction.normalized, Time.deltaTime);
+                _cube.position = Vector3.Lerp(_cube.position, _cube.position + _direction.normalized, Time.deltaTime * _power);
             }
 
             if (Input.GetMouseButtonUp(0))
